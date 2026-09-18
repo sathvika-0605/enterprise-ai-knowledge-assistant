@@ -1,0 +1,10 @@
+pypdf
+langchain-text-splitters
+chromadb
+sentence-transformers
+ollama
+fastapi
+uvicorn
+streamlit
+requests
+python-dotenv
