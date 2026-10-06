@@ -3,5 +3,6 @@ venv/
 __pycache__/
 *.pyc
 chroma_db/
-
-data/documents/raw/*.pdf
+chroma_db_backup/
+chroma_test/
+data/documents/raw/

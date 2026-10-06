@@ -1,4 +1,6 @@
 pypdf
+PyMuPDF
+pdfplumber
 langchain-text-splitters
 chromadb
 sentence-transformers

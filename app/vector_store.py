@@ -14,34 +14,43 @@ chroma_client = chromadb.PersistentClient(
 )
 
 
-# Create or load our collection
+# Create or load V2 collection
 collection = chroma_client.get_or_create_collection(
-    name="enterprise_documents"
+    name="enterprise_documents_v2"
 )
 
 
 def add_documents(chunks):
+
+    # Extract text from chunks
     texts = [chunk["text"] for chunk in chunks]
 
+    # Create embeddings
     embeddings = embedding_model.encode(
         texts,
         normalize_embeddings=True
     ).tolist()
 
+    # Create unique IDs for each chunk
     ids = [
         f"chunk_{index}"
         for index in range(len(chunks))
     ]
 
+    # Store metadata for each chunk
     metadatas = [
         {
-            "source": chunk["source"],
-            "page": chunk["page"],
+            "source": chunk.get("source", ""),
+            "page": chunk.get("page", 0),
+            "section": chunk.get("section", ""),
+            "document_type": chunk.get("document_type", ""),
+            "chunk_id": f"chunk_{index}",
         }
-        for chunk in chunks
+        for index, chunk in enumerate(chunks)
     ]
 
-    collection.add(
+    # Add documents to ChromaDB
+    collection.upsert(
         ids=ids,
         documents=texts,
         embeddings=embeddings,
